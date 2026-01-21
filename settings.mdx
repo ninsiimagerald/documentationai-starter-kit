@@ -1,0 +1,132 @@
+---
+title: Configuring MyCare Settings
+description: Customize your MyCare experience by adjusting privacy, notifications, and data sharing options to suit your health management needs.
+---
+
+## Overview
+
+MyCare provides flexible settings to tailor your health management platform to your preferences. You control privacy levels, notification triggers, data sharing permissions, and profile details directly from the dashboard at `https://dashboard.example.com/settings`.
+
+<Callout kind="tip">
+  Review your settings regularly to ensure they align with your current health goals and care team requirements.
+</Callout>
+
+Use the sections below to configure each area step by step.
+
+## Privacy and Data Security Preferences
+
+Set your privacy options to protect sensitive health data. Access these via the Privacy tab in settings.
+
+<Columns cols={2}>
+  <Card title="Data Encryption" icon="shield" href="#data-encryption">
+    Enable end-to-end encryption for vitals.
+  </Card>
+  <Card title="Access Logs" icon="file-text" href="#access-logs">
+    Monitor who views your records.
+  </Card>
+</Columns>
+
+### Key Privacy Parameters
+
+<ParamField path="privacy.encryption" param-type="boolean" required="true">
+  Activates AES-256 encryption for stored vitals data.
+</ParamField>
+
+<ParamField path="privacy.retention_days" param-type="number" required="false">
+  Number of days to retain logs (default: `365`).
+</ParamField>
+
+<ParamField path="privacy.sharing_opt_in" param-type="boolean" required="true">
+  Requires explicit consent before sharing with external providers.
+</ParamField>
+
+## Managing Notification Alerts
+
+Configure alerts for health updates, medication reminders, and community support notifications.
+
+<Steps>
+  <Step title="Access Notifications" icon="bell">
+    Navigate to `https://dashboard.example.com/settings/notifications`.
+  </Step>
+  <Step title="Select Triggers" icon="settings">
+    Choose from vitals thresholds, bill alerts, or program updates.
+  </Step>
+  <Step title="Set Channels" icon="smartphone">
+    Enable email, push, or SMS.
+  </Step>
+  <Step title="Test and Save" icon="check-circle">
+    Send a test notification and apply changes.
+  </Step>
+</Steps>
+
+## Configuring Data Sharing with Care Teams
+
+Share vitals securely with your doctors or programs. Use the API for programmatic control.
+
+<Tabs>
+  <Tab title="Web Dashboard" icon="globe">
+    From settings, select your care team and toggle data types like blood pressure or emergency bills.
+  </Tab>
+  <Tab title="API Configuration" icon="code">
+    Update sharing via API.
+
+    <CodeGroup tabs="JavaScript,cURL">
+      ```javascript
+      const response = await fetch('https://api.example.com/v1/user/sharing', {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${YOUR_TOKEN}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          team_id: 'team-123',
+          share_vitals: true,
+          share_bills: false
+        })
+      });
+      ```
+      ```bash
+      curl -X PATCH https://api.example.com/v1/user/sharing \
+        -H "Authorization: Bearer YOUR_TOKEN" \
+        -H "Content-Type: application/json" \
+        -d '{
+          "team_id": "team-123",
+          "share_vitals": true,
+          "share_bills": false
+        }'
+      ```
+    </CodeGroup>
+  </Tab>
+</Tabs>
+
+<ParamField header="Authorization" param-type="string" required="true">
+  Bearer token for authenticated sharing requests.
+</ParamField>
+
+## Account and Profile Management
+
+Manage your profile details and linked accounts.
+
+<ExpandableGroup>
+  <Expandable title="Update Profile Information" default-open="true">
+    Edit name, emergency contacts, and insurance details in the Profile section.
+  </Expandable>
+  <Expandable title="Linked Accounts">
+    Connect hospital portals or wearables via OAuth.
+  </Expandable>
+  <Expandable title="Export Data">
+    Download your full health history as JSON or PDF.
+  </Expandable>
+</ExpandableGroup>
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| `profile.photo_url` | Profile image URL | None |
+| `profile.emergency_contact` | Phone number for alerts | Required |
+| `account.two_factor` | Enable 2FA | `false` |
+
+<Callout kind="alert">
+  Always use strong passwords and enable two-factor authentication for account security.
+</Callout>
+
+These configurations ensure MyCare adapts to your needs, from daily self-monitoring to secure team collaboration. Test changes in a staging environment if using API integrations.
